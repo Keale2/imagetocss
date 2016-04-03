@@ -1,0 +1,24 @@
+{
+  "name": "imagetocss",
+  "version": "1.0.0",
+  "description": "Convert images to CSS",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "get-pixels": "^3.3.0",
+    "ndarray": "^1.0.18"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Keale2/imagetocss.git"
+  },
+  "author": "Kyle Wagner",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Keale2/imagetocss/issues"
+  },
+  "homepage": "https://github.com/Keale2/imagetocss#readme"
+}
