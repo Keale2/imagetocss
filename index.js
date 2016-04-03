@@ -7,25 +7,32 @@ var G = 1;
 var B = 2;
 var A = 3;
 
-function ndarrayToMultiArray(pixels) {
-    var allData = [];
-    var rowData;
-    var pixelData;
+function makeShadow(row, col, r, g, b, a) {
+    return row + "px " + col + "px 0px rgba(" + r + ", " + g + ", " + b + ", " + a + ")";
+}
+
+function ndarrayToCSS(pixels) {
+    var allData = "";
     var row;
     var col;
+    var temp = "";
 
     for (row = 0; row < pixels.shape[0]; row++) {
-        rowData = [];
         for (col = 0; col < pixels.shape[1]; col++) {
-            pixelData = [];
-            pixelData.push(pixels.get(row, col, R));
-            pixelData.push(pixels.get(row, col, G));
-            pixelData.push(pixels.get(row, col, B));
-            pixelData.push(pixels.get(row, col, A));
-            rowData.push(pixelData);
+            if (allData) {
+                allData += ", "
+            }
+
+            allData += makeShadow(
+                row,
+                col,
+                pixels.get(row, col, R),
+                pixels.get(row, col, G),
+                pixels.get(row, col, B),
+                pixels.get(row, col, A));
         }
-        allData.push(rowData);
     }
+    allData = ".target {box-shadow:" + allData + "; height: 1px; width: 1px;}";
     return allData;
 }
 
@@ -34,8 +41,8 @@ getPixels(img, function(err, pixels) {
         console.log("Bad image path");
         return;
     }
-    console.log(ndarrayToMultiArray(pixels));
-    fs.writeFile(img + ".txt", JSON.stringify(ndarrayToMultiArray(pixels)), function(err) {
+    console.log(ndarrayToCSS(pixels));
+    fs.writeFile(img + ".txt", JSON.stringify(ndarrayToCSS(pixels)), function(err) {
         if (err) {
             return console.log(err);
         }
