@@ -1,6 +1,8 @@
 var fs = require('fs');
 var getPixels = require("get-pixels");
 var ndarray = require("ndarray");
+var rgbHex = require('rgb-hex');
+
 var img = process.argv[2];
 var step = isNaN(parseInt(process.argv[3])) ? 1 : parseInt(process.argv[3]);
 var R = 0;
@@ -10,7 +12,15 @@ var A = 3;
 
 
 function makeShadow(row, col, r, g, b, a) {
-    return row + "px " + col + "px 0px " + step + "px rgba(" + r + ", " + g + ", " + b + ", " + a + ")";
+    var color;
+    if (a === 255) {
+        color = "#" + rgbHex(r, g, b);
+    }
+    else {
+        /* convert alpha to percentage, rounded to 2 decimal places */
+        color = "rgba(" + r + ", " + g + ", " + b + ", " + Math.round(a / 2.55) / 100 + ")"
+    }
+    return row + "px " + col + "px 0px " + step + "px " + color;
 }
 
 function ndarrayToCSS(pixels) {
